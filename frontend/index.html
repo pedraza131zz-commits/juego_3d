@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contra: Jungle Recon | Base de Operaciones Táctica</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Arcade Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Contenedor Flotante de Toasts Tácticos -->
+  <div id="tactical-toast-container"></div>
+
+  <!-- Barra de Estado Superior -->
+  <header class="py-2 border-bottom border-dark sticky-top" style="background-color: rgba(5, 12, 9, 0.95); backdrop-filter: blur(8px); z-index: 1040;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-shield-shaded text-success fs-4"></i>
+        <span class="font-arcade fs-6 text-white">CONTRA RECON</span>
+        <span class="badge bg-secondary badge-arcade d-none d-md-inline-block">HQ OPERATIVO PRO</span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button id="btn-quick-play-header" class="btn btn-sm btn-contra-primary font-arcade">
+          <i class="bi bi-controller"></i> JUGAR YA 3D
+        </button>
+        <button id="btn-mute-toggle" class="btn btn-sm btn-outline-warning font-tech">
+          <i class="bi bi-volume-up-fill"></i> Sonido
+        </button>
+        <span id="server-status-badge" class="badge bg-warning text-dark badge-arcade">
+          <i class="bi bi-hourglass-split"></i> CONECTANDO CON SERVIDOR...
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="container py-4">
+
+    <!-- ========================================== -->
+    <!-- VISTA 1: AUTENTICACIÓN (LOGIN / REGISTRO)  -->
+    <!-- ========================================== -->
+    <div id="view-auth">
+      
+      <!-- Showcase Visual de Entrada -->
+      <div class="text-center mb-4">
+        <div class="mb-3">
+          <img src="assets/jungle_bg.jpg" alt="Super Contra Selva" class="img-fluid rounded border border-warning shadow banner-glow" style="max-height: 220px; width: 100%; max-width: 720px; object-fit: cover;">
+        </div>
+        <h1 class="font-arcade text-warning glow-text-amber fs-3 mb-2">
+          SUPER CONTRA: DOOM 3D &bull; EL LABERINTO
+        </h1>
+        <p class="font-tech text-light lead mb-1">
+          Base de Operaciones &bull; Infiltración en Primera Persona (Retro DOOM FPS)
+        </p>
+        <small class="text-secondary">
+          Persistencia Real SQLite &bull; Autenticación JWT &bull; Forja de Armas &bull; Mech Goliath &bull; Laberinto 3D
+        </small>
+      </div>
+
+      <div id="alert-container" class="mx-auto col-lg-8 mb-3"></div>
+
+      <!-- Banner Táctico de Despliegue Inmediato / Quick Play 3D -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-10 col-lg-8">
+          <div class="card card-arcade p-4 border-warning shadow-lg text-center">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+              <div class="text-md-start">
+                <span class="badge bg-danger font-arcade mb-1"><i class="bi bi-fire"></i> DESPLIEGUE DIRECTO</span>
+                <h3 class="font-arcade text-warning fs-5 mb-1">ACCESO RÁPIDO AL LABERINTO 3D</h3>
+                <p class="font-tech text-light mb-0 small">
+                  Juega de inmediato en primera persona estilo DOOM / Contra: laberinto Three.js, tanque Goliath, torretas hostiles y arsenal balístico completo.
+                </p>
+              </div>
+              <div class="d-flex flex-column gap-2 text-nowrap w-100 w-md-auto">
+                <button id="btn-quick-play" class="btn btn-contra-primary btn-lg font-arcade fs-6 py-3 px-4 shadow">
+                  <i class="bi bi-controller"></i> ¡JUGAR AHORA 3D!
+                </button>
+                <button id="btn-quick-demo" class="btn btn-outline-warning btn-sm font-tech fw-bold py-2 px-3">
+                  <i class="bi bi-person-fill-check"></i> Soldado Demo Bill Rizer (HQ)
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+          <div class="card card-arcade p-4 shadow">
+            
+            <ul class="nav nav-tabs nav-tabs-arcade mb-4" id="authTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab">
+                  <i class="bi bi-box-arrow-in-right"></i> Iniciar Misión
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane" type="button" role="tab">
+                  <i class="bi bi-person-plus"></i> Reclutar Soldado
+                </button>
+              </li>
+            </ul>
+
+            <div class="tab-content" id="authTabContent">
+              <!-- Tab Login -->
+              <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
+                <form id="login-form">
+                  <div class="mb-3 text-start">
+                    <label for="login-id" class="form-label text-success fw-bold">Usuario o Correo Militar</label>
+                    <input type="text" class="form-control form-control-arcade" id="login-id" placeholder="ej: BillRizer o bill@contra.mil" required autocomplete="username">
+                  </div>
+                  <div class="mb-4 text-start">
+                    <label for="login-pass" class="form-label text-success fw-bold">Código de Acceso (Password)</label>
+                    <input type="password" class="form-control form-control-arcade" id="login-pass" placeholder="••••••••" required autocomplete="current-password">
+                  </div>
+                  <button type="submit" class="btn btn-contra-primary w-100 py-2">
+                    <i class="bi bi-crosshair"></i> Ingresar al Frente
+                  </button>
+                </form>
+              </div>
+
+              <!-- Tab Registro -->
+              <div class="tab-pane fade" id="register-pane" role="tabpanel">
+                <form id="register-form">
+                  <div class="mb-3 text-start">
+                    <label for="reg-user" class="form-label text-success fw-bold">Nombre en Clave (Username)</label>
+                    <input type="text" class="form-control form-control-arcade" id="reg-user" placeholder="ej: LanceBean" required minlength="3">
+                  </div>
+                  <div class="mb-3 text-start">
+                    <label for="reg-email" class="form-label text-success fw-bold">Correo Electrónico</label>
+                    <input type="email" class="form-control form-control-arcade" id="reg-email" placeholder="lance@contra.mil" required>
+                  </div>
+                  <div class="mb-4 text-start">
+                    <label for="reg-pass" class="form-label text-success fw-bold">Contraseña Segura (Mínimo 6 caracteres)</label>
+                    <input type="password" class="form-control form-control-arcade" id="reg-pass" placeholder="••••••••" required minlength="6">
+                  </div>
+                  <button type="submit" class="btn btn-contra-primary w-100 py-2">
+                    <i class="bi bi-person-badge"></i> Registrar y Obtener 100 Monedas
+                  </button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VISTA 2: HQ / CAMPAMENTO MILITAR (LOGUEADO)-->
+    <!-- ========================================== -->
+    <div id="view-hq" class="d-none">
+      
+      <!-- Banner de Soldado Activo con Avatar Ilustrado y Monedas -->
+      <div class="card card-arcade p-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          
+          <div class="d-flex align-items-center gap-3 text-start">
+            <div>
+              <img src="assets/soldier_hero.jpg" alt="Soldado Comando" class="soldier-avatar-img rounded shadow">
+            </div>
+            <div>
+              <span class="badge bg-success badge-arcade">COMANDO EN SERVICIO</span>
+              <h2 class="fs-4 text-warning font-arcade mt-1 mb-0" id="hq-username">BillRizer</h2>
+              <small class="text-secondary font-tech">SECTOR DE OPERACIONES: SELVA TROPICAL HOSTIL</small>
+            </div>
+          </div>
+
+          <div class="d-flex gap-3 text-center">
+            <div class="bg-dark p-2 px-3 rounded border border-warning">
+              <small class="text-muted d-block font-tech">MONEDAS</small>
+              <span class="fs-4 fw-bold text-warning font-tech" id="hq-coins">0</span>
+            </div>
+            <div class="bg-dark p-2 px-3 rounded border border-success">
+              <small class="text-muted d-block font-tech">RÉCORD</small>
+              <span class="fs-4 fw-bold text-success font-tech" id="hq-highscore">0</span>
+            </div>
+            <div class="bg-dark p-2 px-3 rounded border border-info">
+              <small class="text-muted d-block font-tech">INCURSIONES</small>
+              <span class="fs-4 fw-bold text-light font-tech" id="hq-games">0</span>
+            </div>
+          </div>
+
+          <div>
+            <button id="btn-logout" class="btn btn-sm btn-contra-danger">
+              <i class="bi bi-box-arrow-left"></i> Desconectar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Centro de Despliegue Táctico y Selector de Dificultad -->
+      <div class="card card-arcade p-4 mb-4 text-center">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-3 mb-lg-0 text-lg-start">
+            <h4 class="font-arcade text-warning fs-5 mb-2">
+              <i class="bi bi-geo-alt-fill text-danger"></i> OBJETIVO: EL LABERINTO TÁCTICO 3D (DOOM FPS)
+            </h4>
+            <p class="text-light font-tech mb-3">
+              Infiltración en primera persona estilo DOOM en los pasillos del laberinto. Enfréntate a patrullas hostiles, francotiradores, torretas automáticas, recolecta potenciadores balísticos, aborda el Mech Goliath y destruye el reactor central.
+            </p>
+
+            <!-- Selector de Dificultad (Requerimiento 13) -->
+            <label class="form-label text-success fw-bold font-tech mb-2 d-block">
+              SELECCIÓN DE DIFICULTAD DE MISIÓN:
+            </label>
+            <div class="btn-group w-100" role="group" aria-label="Dificultad">
+              <input type="radio" class="btn-check" name="radioDifficulty" id="diff-facil" value="facil" autocomplete="off">
+              <label class="btn btn-outline-success font-tech py-2" for="diff-facil">
+                <i class="bi bi-shield-fill"></i> FÁCIL (Recluta)
+              </label>
+
+              <input type="radio" class="btn-check" name="radioDifficulty" id="diff-normal" value="normal" autocomplete="off" checked>
+              <label class="btn btn-outline-warning font-tech py-2" for="diff-normal">
+                <i class="bi bi-shield-shaded"></i> NORMAL (Veterano)
+              </label>
+
+              <input type="radio" class="btn-check" name="radioDifficulty" id="diff-dificil" value="dificil" autocomplete="off">
+              <label class="btn btn-outline-danger font-tech py-2" for="diff-dificil">
+                <i class="bi bi-fire"></i> DIFÍCIL (Infierno)
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <button id="btn-deploy-mission" class="btn btn-contra-primary btn-lg w-100 py-3 font-arcade fs-6 shadow">
+              <i class="bi bi-crosshair"></i> DESPLEGAR EN EL LABERINTO 3D
+            </button>
+            <small class="text-muted d-block mt-2 font-tech">
+              * Incluye vista en primera persona estilo DOOM, laberinto procedural y HUD clásico con rostro del Marine
+            </small>
+
+            <div class="d-flex gap-2 mt-3">
+              <button id="btn-open-forge" class="btn btn-contra-warning w-50 py-2 font-tech fw-bold">
+                <i class="bi bi-hammer"></i> TALLER DE FORJA
+              </button>
+              <button id="btn-open-leaderboard" class="btn btn-outline-info w-50 py-2 font-tech fw-bold">
+                <i class="bi bi-trophy-fill"></i> CLASIFICACIÓN
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tarjeta de Vehículo Pesado: Tanque Goliath (Req 14) -->
+      <div class="card card-arcade p-3 mb-4">
+        <div class="row align-items-center">
+          <div class="col-md-5 text-center">
+            <img src="assets/combat_tank.jpg" alt="Tanque Goliath" class="img-fluid rounded border border-success shadow" style="max-height: 190px; width: 100%; object-fit: cover;">
+          </div>
+          <div class="col-md-7 text-start mt-3 mt-md-0">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="badge bg-warning text-dark font-arcade">VEHÍCULO PESADO DESPLEGABLE</span>
+              <span class="badge bg-dark border border-warning text-warning font-tech">ARMADURA: 500 HP</span>
+            </div>
+            <h4 class="font-arcade text-light fs-5 mb-1">TANQUE DE ASALTO GOLIATH</h4>
+            <p class="text-secondary small font-tech mb-2">
+              Estacionado a mitad de camino en la selva (X: 2,100m). Acércate durante el combate y pulsa <strong>[E]</strong> para entrar. Cuenta con cañón dual de 120mm que apunta 360° y absorbe fuego de artillería contra los jeeps enemigos.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge bg-dark text-info border border-secondary font-tech"><i class="bi bi-shield-fill"></i> BLINDAJE PESADO</span>
+              <span class="badge bg-dark text-danger border border-secondary font-tech"><i class="bi bi-crosshair"></i> CAÑÓN 120MM DUAL</span>
+              <span class="badge bg-dark text-warning border border-secondary font-tech"><i class="bi bi-controller"></i> ACCESO CON TECLA [E]</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección de Arsenal e Inventario del Jugador -->
+      <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="font-arcade fs-5 text-success mb-0">
+            <i class="bi bi-crosshair"></i> ARSENAL DISPONIBLE
+          </h4>
+          <span class="badge bg-dark border border-success text-success font-tech">
+            SELECCIONA EL ARMA A DESPLEGAR
+          </span>
+        </div>
+        <div id="hq-inventory-list" class="row">
+          <!-- Renderizado dinámico desde SQLite -->
+        </div>
+      </div>
+
+      <!-- Sección del Mercado Negro (Catálogo de Compra con Monedas) -->
+      <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="font-arcade fs-5 text-warning mb-0">
+            <i class="bi bi-cart3"></i> MERCADO NEGRO DE ARMAMENTO
+          </h4>
+          <span class="badge bg-dark border border-warning text-warning font-tech">
+            ADQUIERE ARMAS CON TUS MONEDAS
+          </span>
+        </div>
+        <div id="hq-catalog-list" class="row">
+          <!-- Renderizado dinámico desde SQLite -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VISTA 3: CINEMÁTICA DE INICIO (HELICÓPTERO)-->
+    <!-- ========================================== -->
+    <div id="view-cinematic" class="d-none text-center">
+      <div class="card card-arcade p-2 game-viewport-container mx-auto">
+        <canvas id="cinematic-canvas" width="1000" height="560" class="w-100 h-auto"></canvas>
+        <div class="p-2 bg-dark d-flex justify-content-between align-items-center">
+          <span class="font-arcade text-warning small">
+            <i class="bi bi-film"></i> CINEMÁTICA: INFILTRACIÓN AÉREA EN LLAMAS
+          </span>
+          <button id="btn-skip-cinematic" class="btn btn-sm btn-outline-warning font-arcade">
+            SALTAR CINEMÁTICA [ESC]
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VISTA 4: VISTA DE COMBATE DOOM 3D EN PRIMERA PERSONA -->
+    <!-- ========================================== -->
+    <div id="view-game" class="d-none">
+      
+      <div class="game-viewport-container mx-auto rounded shadow-lg position-relative overflow-hidden" id="doom-viewport-box">
+        
+        <!-- Canvas 3D de WebGL / Three.js -->
+        <canvas id="game-canvas" width="1000" height="580" class="w-100 h-auto d-block bg-black"></canvas>
+
+        <!-- Capa de Flash de Daño (Rojo) -->
+        <div id="doom-damage-flash" class="doom-overlay-layer"></div>
+
+        <!-- Capa de Aura de Poderes (Quad Damage / Escudo / Speed) -->
+        <div id="doom-power-glow" class="doom-overlay-layer"></div>
+
+        <!-- Cockpit HUD del Mech Blindado Goliath (Req 14 en 3D) -->
+        <div id="goliath-cockpit-hud" class="doom-overlay-layer d-none">
+          <div class="cockpit-frame">
+            <div class="cockpit-top-bar d-flex justify-content-between p-2">
+              <span class="badge bg-warning text-dark font-arcade">SISTEMA BLINDADO GOLIATH ACTIVO</span>
+              <span class="badge bg-dark border border-warning text-warning font-tech" id="goliath-armor-badge">ARMADURA: 500 / 500 HP</span>
+            </div>
+            <div class="cockpit-target-brackets"></div>
+            <div class="cockpit-bottom-bar text-center p-1">
+              <span class="font-tech text-info small">CAÑÓN DUAL DE 120MM RECARGADO &bull; PULSA [E] PARA EYECTARSE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Retícula de Apuntado DOOM 3D y Hitmarker -->
+        <div id="doom-crosshair" class="doom-crosshair">
+          <div class="crosshair-dot"></div>
+          <div class="crosshair-line top"></div>
+          <div class="crosshair-line bottom"></div>
+          <div class="crosshair-line left"></div>
+          <div class="crosshair-line right"></div>
+          <div id="doom-hitmarker" class="doom-hitmarker d-none">✕</div>
+        </div>
+
+        <!-- Prompt de Acción Flotante (ej: Montar Mech) -->
+        <div id="doom-action-prompt" class="doom-action-prompt d-none font-arcade">
+          <i class="bi bi-gear-wide-connected"></i> PULSA <span class="key-badge">[E]</span> MONTAR BLINDADO GOLIATH
+        </div>
+
+        <!-- Radar Táctico / Minimapa del Laberinto 3D (Esquina Superior Derecha) -->
+        <div id="doom-minimap-container" class="doom-minimap-box">
+          <div class="minimap-header font-tech">
+            <i class="bi bi-radar text-success"></i> RADAR TÁCTICO
+          </div>
+          <canvas id="doom-minimap" width="140" height="140" class="rounded border border-success"></canvas>
+          <div class="minimap-legend font-tech">
+            <span class="text-success">&bull; Tú</span>
+            <span class="text-danger ms-1">&bull; Enemigos</span>
+            <span class="text-warning ms-1">&bull; Mech</span>
+            <span class="text-info ms-1">&bull; Boss</span>
+          </div>
+        </div>
+
+        <!-- Overlay Superior Táctico: Distancia al Núcleo y Pausa -->
+        <div class="doom-top-hud d-flex justify-content-between align-items-center p-2">
+          <div class="d-flex align-items-center gap-2 bg-dark bg-opacity-75 px-3 py-1 rounded border border-secondary">
+            <span class="font-tech text-warning small text-nowrap">
+              <i class="bi bi-crosshair2 text-danger"></i> NÚCLEO ENEMIGO:
+            </span>
+            <div class="progress radar-progress-bar" style="width: 180px; height: 14px;">
+              <div id="hud-base-progress" class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 0%;">
+                0%
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-dark border border-secondary font-tech" id="hud-difficulty">NORMAL</span>
+            <button id="btn-pause-game" class="btn btn-sm btn-outline-danger font-arcade">
+              <i class="bi bi-pause-fill"></i> PAUSA
+            </button>
+          </div>
+        </div>
+
+        <!-- Pantalla de Bloqueo de Puntero (Click para Jugar DOOM 3D) -->
+        <div id="pointer-lock-prompt" class="pointer-lock-overlay d-flex flex-column justify-content-center align-items-center text-center p-4">
+          <div class="card card-arcade p-4 shadow-lg border-warning max-w-600">
+            <div class="mb-2">
+              <i class="bi bi-controller text-warning fs-1"></i>
+            </div>
+            <h2 class="font-arcade text-warning fs-4 mb-2">SUPER CONTRA: DOOM 3D</h2>
+            <h5 class="text-success font-tech mb-3">INFILTRACIÓN TÁCTICA EN PRIMERA PERSONA &bull; EL LABERINTO</h5>
+            
+            <p class="text-light font-tech lead mb-3">
+              Los batallones hostiles y torretas han tomado los pasillos del laberinto.
+              Avanza en primera persona, recoge suministros y destruye el reactor central.
+            </p>
+
+            <button id="btn-lock-pointer" class="btn btn-contra-primary btn-lg font-arcade fs-6 py-3 px-4 mb-3 pulse-glow">
+              <i class="bi bi-mouse-fill"></i> ¡HAZ CLIC AQUÍ PARA ENTRAR AL COMBATE!
+            </button>
+
+            <div class="border-top border-secondary pt-3 text-start font-tech small text-muted">
+              <div class="row g-2">
+                <div class="col-6"><span class="text-warning fw-bold">[W, A, S, D]</span> Desplazamiento 3D</div>
+                <div class="col-6"><span class="text-warning fw-bold">[RATÓN]</span> Mirar 360° / Apuntar</div>
+                <div class="col-6"><span class="text-warning fw-bold">[CLIC IZQ]</span> Disparo Continuo</div>
+                <div class="col-6"><span class="text-warning fw-bold">[ESPACIO]</span> Saltar</div>
+                <div class="col-6"><span class="text-warning fw-bold">[SHIFT]</span> Correr Táctico</div>
+                <div class="col-6"><span class="text-warning fw-bold">[E]</span> Montar Mech Goliath</div>
+                <div class="col-6"><span class="text-warning fw-bold">[1 - 5]</span> Selección de Armamento</div>
+                <div class="col-6"><span class="text-warning fw-bold">[ESC / P]</span> Menú de Pausa</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- BARRA DE ESTADO CLÁSICA ESTILO DOOM (HUD)  -->
+      <!-- ========================================== -->
+      <div id="doom-status-bar" class="doom-status-bar mt-2 rounded border border-dark">
+        <div class="row g-0 align-items-center h-100 px-3">
+          
+          <!-- Bloque Izquierdo: Vidas y Salud / Armadura -->
+          <div class="col-md-4 d-flex align-items-center gap-3">
+            <!-- Vidas Contra -->
+            <div class="text-center bg-dark p-2 rounded border border-success">
+              <small class="text-muted font-tech d-block" style="font-size: 10px;">VIDAS</small>
+              <div id="hud-lives" class="d-flex justify-content-center">
+                <i class="bi bi-shield-fill-check text-success fs-5 me-1"></i>
+                <i class="bi bi-shield-fill-check text-success fs-5 me-1"></i>
+                <i class="bi bi-shield-fill-check text-success fs-5 me-1"></i>
+              </div>
+            </div>
+
+            <!-- Porcentaje de Salud Digital DOOM -->
+            <div class="bg-black p-2 px-3 rounded border border-danger text-center flex-grow-1">
+              <small class="text-danger font-tech d-block fw-bold" style="font-size: 11px;">SALUD</small>
+              <span class="doom-lcd-number text-danger font-arcade" id="doom-health-display">100%</span>
+            </div>
+
+            <!-- Porcentaje de Blindaje / Escudo -->
+            <div class="bg-black p-2 px-3 rounded border border-info text-center flex-grow-1">
+              <small class="text-info font-tech d-block fw-bold" style="font-size: 11px;">ESCUDO</small>
+              <span class="doom-lcd-number text-info font-arcade" id="doom-armor-display">100%</span>
+            </div>
+          </div>
+
+          <!-- Bloque Central: ROSTRO DEL MARINE DOOM DINÁMICO -->
+          <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+            <div class="doom-marine-frame p-1 rounded shadow">
+              <canvas id="doom-marine-face" width="68" height="68" class="rounded bg-black d-block"></canvas>
+            </div>
+          </div>
+
+          <!-- Bloque Derecho: Arma Activa, Poderes, Score y Monedas -->
+          <div class="col-md-5 d-flex align-items-center justify-content-end gap-3">
+            
+            <!-- Arma y Estadísticas -->
+            <div class="bg-dark p-2 px-3 rounded border border-warning text-center">
+              <span class="badge bg-warning text-dark font-arcade me-1" id="hud-weapon-type">RIFLE</span>
+              <span class="font-tech fw-bold text-light" id="hud-weapon-name">Fusil Asalto Contra</span>
+              <div class="small font-tech text-info" id="hud-weapon-stats">DMG: 25 | CAD: 5.0 | PROY: 1</div>
+            </div>
+
+            <!-- Poderes Activos (Badges) -->
+            <div id="hud-active-powers" class="d-flex flex-column gap-1">
+              <span class="badge bg-dark border border-danger text-danger font-tech d-none" id="power-badge-quad">
+                <i class="bi bi-lightning-charge-fill"></i> QUAD DMG
+              </span>
+              <span class="badge bg-dark border border-info text-info font-tech d-none" id="power-badge-shield">
+                <i class="bi bi-shield-fill"></i> ESCUDO
+              </span>
+              <span class="badge bg-dark border border-warning text-warning font-tech d-none" id="power-badge-speed">
+                <i class="bi bi-speedometer2"></i> OVERDRIVE
+              </span>
+            </div>
+
+            <!-- Marcadores: Score y Monedas -->
+            <div class="d-flex gap-2">
+              <div class="bg-dark p-2 px-3 rounded border border-success text-end">
+                <small class="text-muted d-block font-tech" style="line-height: 1; font-size: 10px;">SCORE</small>
+                <span class="fs-5 fw-bold text-success font-tech" id="hud-score">0</span>
+              </div>
+              <div class="bg-dark p-2 px-3 rounded border border-warning text-end">
+                <small class="text-muted d-block font-tech" style="line-height: 1; font-size: 10px;">MONEDAS</small>
+                <span class="fs-5 fw-bold text-warning font-tech" id="hud-coins">0</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Terminal de Logs de Telemetría -->
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-10">
+        <div class="text-start mb-1 text-secondary small font-tech">
+          <i class="bi bi-terminal"></i> CONSOLA DE TELEMETRÍA TÁCTICA:
+        </div>
+        <div id="terminal-logs" class="terminal-box rounded">
+          <div>[SISTEMA] Base de Operaciones Contra Recon lista. Esperando orden de despliegue...</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL: MENÚ DE PAUSA TÁCTICO (REQ 12)       -->
+  <!-- ========================================== -->
+  <div class="modal fade modal-arcade" id="modal-pause" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-arcade text-warning fs-6">
+            <i class="bi bi-pause-circle-fill"></i> OPERACIÓN EN PAUSA
+          </h5>
+        </div>
+        <div class="modal-body text-center py-4">
+          <p class="font-tech text-light lead mb-4">
+            Combate suspendido temporalmente. Elige una acción:
+          </p>
+          <div class="d-grid gap-3 col-10 mx-auto">
+            <button id="btn-resume-game" class="btn btn-contra-primary py-2 font-arcade fs-6">
+              <i class="bi bi-play-fill"></i> REANUDAR OPERACIÓN
+            </button>
+            <button id="btn-save-game" class="btn btn-contra-warning py-2 font-tech fw-bold">
+              <i class="bi bi-cloud-arrow-up-fill"></i> GUARDAR PROGRESO EN BD
+            </button>
+            <button id="btn-quit-game" class="btn btn-contra-danger py-2 font-tech fw-bold">
+              <i class="bi bi-door-open-fill"></i> ABORTAR MISIÓN Y VOLVER AL HQ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: TALLER DE FORJA DE ARMAS (REQ 5)    -->
+  <!-- ========================================== -->
+  <div class="modal fade modal-arcade" id="modal-forge" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-arcade text-warning fs-6">
+            <i class="bi bi-hammer text-danger"></i> TALLER DE FORJA MILITAR &bull; FUSIÓN HÍBRIDA
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-3">
+          
+          <!-- Banner Ilustrado de la Forja Militar -->
+          <div class="mb-3 text-center">
+            <img src="assets/forge_workshop.jpg" alt="Taller de Forja Militar" class="img-fluid rounded border border-warning shadow banner-glow w-100" style="max-height: 220px; object-fit: cover;">
+          </div>
+
+          <p class="text-light font-tech mb-3">
+            Combina los componentes balísticos de dos armas de tu arsenal para forjar una nueva arma híbrida con daño compuesto, proyectiles dispersos y cadencia balanceada.
+          </p>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6 text-start">
+              <label class="form-label text-success fw-bold font-tech">PRIMERA ARMA BASE:</label>
+              <select id="forge-weapon-1" class="form-select form-select-arcade"></select>
+            </div>
+            <div class="col-md-6 text-start">
+              <label class="form-label text-success fw-bold font-tech">SEGUNDA ARMA BASE:</label>
+              <select id="forge-weapon-2" class="form-select form-select-arcade"></select>
+            </div>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label text-warning fw-bold font-tech">NOMBRE EN CLAVE DEL ARMA FORJADA:</label>
+            <input type="text" id="forge-custom-name" class="form-control form-control-arcade" placeholder="ej: Destructor Quíntuple de Plasma">
+          </div>
+
+          <div class="p-3 bg-dark rounded border border-warning d-flex justify-content-between align-items-center">
+            <div>
+              <span class="text-muted font-tech">COSTO DE FORJA Y ENSAMBLADO:</span>
+              <h5 class="text-warning font-arcade mb-0">100 MONEDAS</h5>
+            </div>
+            <button id="btn-confirm-forge" class="btn btn-contra-primary py-2 px-4 font-arcade fs-6">
+              <i class="bi bi-fire"></i> ¡FORJAR ARMA!
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CLASIFICACIÓN (LEADERBOARD)         -->
+  <!-- ========================================== -->
+  <div class="modal fade modal-arcade" id="modal-leaderboard" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-arcade text-warning fs-6">
+            <i class="bi bi-trophy-fill text-warning"></i> SALÓN DE LA GLORIA &bull; TOP SOLDADOS
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-3">
+          <div class="table-responsive">
+            <table class="table table-dark table-striped table-hover font-tech align-middle">
+              <thead>
+                <tr class="text-success">
+                  <th>RANGO</th>
+                  <th>SOLDADO</th>
+                  <th>SCORE</th>
+                  <th>MONEDAS</th>
+                  <th>BAJAS</th>
+                  <th>DIFICULTAD</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-tbody">
+                <!-- Cargado dinámicamente de SQLite -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Scripts de Juego y Módulos -->
+  <script src="js/audio.js"></script>
+  <script src="js/api.js"></script>
+  <!-- Three.js 3D Engine -->
+  <script src="js/three.min.js"></script>
+  <!-- Cinemática Helicóptero Infiltración -->
+  <script src="js/cinematic.js"></script>
+  <script src="js/game-engine.js"></script>
+  <script src="js/ui-manager.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

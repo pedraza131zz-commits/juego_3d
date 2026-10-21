@@ -1,0 +1,953 @@
+/* CONTRA RECON - ESTILOS ARCADE & BOOTSTRAP OVERRIDES (FASE 4 - VISUALES PRO) */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Press+Start+2P&family=Rajdhani:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+:root {
+  --contra-green: #2ecc71;
+  --contra-dark-green: #0d2818;
+  --contra-amber: #f39c12;
+  --contra-red: #e74c3c;
+  --contra-blue: #00d2d3;
+  --contra-dark: #070d0d;
+  --contra-panel: rgba(13, 27, 21, 0.94);
+  --contra-border: #1abc9c;
+}
+
+body {
+  background-color: var(--contra-dark);
+  color: #ecf0f1;
+  font-family: 'Chakra Petch', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(26, 188, 156, 0.15) 0%, transparent 60%),
+    linear-gradient(rgba(7, 13, 13, 0.92), rgba(7, 13, 13, 0.92)),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 128, 0.03) 3px, rgba(0, 255, 128, 0.03) 4px);
+}
+
+/* Tipografías */
+.font-arcade {
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: -1px;
+}
+
+.font-tech {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Retrato del Soldado Avatar */
+.soldier-avatar-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border: 2px solid #2ecc71 !important;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.6);
+  transition: transform 0.2s ease-in-out;
+}
+
+.soldier-avatar-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 22px rgba(46, 204, 113, 0.9);
+}
+
+/* Banner de la Selva y Forja */
+.banner-glow {
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.35);
+  transition: all 0.3s ease;
+}
+
+.banner-glow:hover {
+  box-shadow: 0 0 30px rgba(243, 156, 18, 0.65);
+}
+
+/* Efectos Neón y Glow */
+.glow-text-green {
+  color: #2ecc71;
+  text-shadow: 0 0 10px rgba(46, 204, 113, 0.6), 0 0 20px rgba(46, 204, 113, 0.3);
+}
+
+.glow-text-amber {
+  color: #f39c12;
+  text-shadow: 0 0 10px rgba(243, 156, 18, 0.6);
+}
+
+.glow-text-red {
+  color: #e74c3c;
+  text-shadow: 0 0 10px rgba(231, 76, 60, 0.6);
+}
+
+/* Contenedores de tarjeta militar */
+.card-arcade {
+  background: var(--contra-panel);
+  border: 2px solid var(--contra-border);
+  box-shadow: 0 0 25px rgba(26, 188, 156, 0.25), inset 0 0 15px rgba(26, 188, 156, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-arcade:hover {
+  box-shadow: 0 0 30px rgba(26, 188, 156, 0.4);
+}
+
+.card-arcade::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 10px;
+  right: 10px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #2ecc71, transparent);
+}
+
+/* Botones estilo militar táctico */
+.btn-contra-primary {
+  background: linear-gradient(180deg, #27ae60 0%, #1e824c 100%);
+  border: 1px solid #2ecc71;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-contra-primary:hover {
+  background: linear-gradient(180deg, #2ecc71 0%, #27ae60 100%);
+  box-shadow: 0 0 18px rgba(46, 204, 113, 0.8);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.btn-contra-danger {
+  background: linear-gradient(180deg, #c0392b 0%, #962d22 100%);
+  border: 1px solid #e74c3c;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.btn-contra-danger:hover {
+  background: #e74c3c;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.8);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-contra-warning {
+  background: linear-gradient(180deg, #d35400 0%, #b94a00 100%);
+  border: 1px solid #e67e22;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.btn-contra-warning:hover {
+  background: #e67e22;
+  box-shadow: 0 0 15px rgba(230, 126, 34, 0.8);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* Inputs de formulario */
+.form-control-arcade, .form-select-arcade {
+  background-color: rgba(4, 18, 11, 0.9);
+  border: 1px solid #16a085;
+  color: #2ecc71;
+  font-family: 'Chakra Petch', monospace;
+  font-size: 1.05rem;
+  border-radius: 4px;
+}
+
+.form-control-arcade:focus, .form-select-arcade:focus {
+  background-color: rgba(6, 26, 16, 0.98);
+  border-color: #2ecc71;
+  color: #2ecc71;
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+}
+
+/* Nav Tabs */
+.nav-tabs-arcade .nav-link {
+  color: #95a5a6;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.75rem 1.25rem;
+}
+
+.nav-tabs-arcade .nav-link.active {
+  color: #2ecc71;
+  background-color: transparent;
+  border-bottom: 2px solid #2ecc71;
+  text-shadow: 0 0 8px rgba(46, 204, 113, 0.6);
+}
+
+/* Insignias tácticas */
+.badge-arcade {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  letter-spacing: 0.5px;
+  border-radius: 3px;
+}
+
+/* Modales Militares */
+.modal-arcade .modal-content {
+  background-color: rgba(8, 18, 13, 0.96);
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 35px rgba(46, 204, 113, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 6px;
+}
+
+.modal-arcade .modal-header {
+  border-bottom: 1px solid #1abc9c;
+}
+
+.modal-arcade .modal-footer {
+  border-top: 1px solid #1abc9c;
+}
+
+/* HUD Overlay en pantalla de juego */
+.game-viewport-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 3px solid #1abc9c;
+  box-shadow: 0 0 30px rgba(26, 188, 156, 0.5);
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.hud-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background: linear-gradient(180deg, rgba(5, 15, 10, 0.95) 0%, rgba(5, 15, 10, 0) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-interactive {
+  pointer-events: auto;
+}
+
+.radar-progress-bar {
+  height: 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 1px solid #2ecc71;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/* Selector de Dificultad */
+.btn-check:checked + .btn-outline-warning {
+  background-color: #f39c12;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 14px rgba(243, 156, 18, 0.8);
+}
+
+.btn-check:checked + .btn-outline-success {
+  background-color: #2ecc71;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 14px rgba(46, 204, 113, 0.8);
+}
+
+.btn-check:checked + .btn-outline-danger {
+  background-color: #e74c3c;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 0 14px rgba(231, 76, 60, 0.8);
+}
+
+/* Notificaciones Toast Tácticas */
+#tactical-toast-container {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  z-index: 1060;
+  min-width: 340px;
+}
+
+
+/* --- Los efectos de damage flash, power glow, cockpit, crosshair, hitmarker, minimap, statusbar, pointer-lock, pulse-glow, hud-overlay, y doom-top-hud están definidos en la sección DOOM MEJORADA al final del archivo --- */
+
+
+
+/* ===================================================================== */
+/* EFECTOS VISUALES DOOM MEJORADOS - SCANLINES, VIÑETA, POST-PROCESADO   */
+/* ===================================================================== */
+
+/* Scanlines retro sobre el viewport del juego (efecto TV antigua) */
+.game-viewport-container::after {
+
+
+#doom-power-glow.shield-glow {
+  background: radial-gradient(circle at center, rgba(0, 255, 200, 0) 50%, rgba(46, 204, 113, 0.45) 100%);
+  opacity: 1;
+}
+
+#doom-power-glow.speed-glow {
+  background: radial-gradient(circle at center, rgba(255, 200, 0, 0) 50%, rgba(243, 156, 18, 0.4) 100%);
+  opacity: 1;
+}
+
+/* Cockpit Blindado Goliath */
+#goliath-cockpit-hud {
+  z-index: 6;
+  background: 
+    linear-gradient(rgba(0, 255, 100, 0.05) 50%, rgba(0, 0, 0, 0.25) 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 255, 150, 0.04) 4px);
+  background-size: 100% 4px, 100% 4px;
+}
+
+.cockpit-frame {
+  width: 100%;
+  height: 100%;
+  border: 18px solid rgba(20, 35, 25, 0.85);
+  box-shadow: inset 0 0 40px rgba(46, 204, 113, 0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cockpit-target-brackets {
+  width: 180px;
+  height: 180px;
+  margin: auto;
+  border: 2px dashed rgba(243, 156, 18, 0.6);
+  border-radius: 50%;
+  animation: radar-rotate 8s linear infinite;
+}
+
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Retícula de Apuntado DOOM 3D */
+.doom-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.crosshair-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #2ecc71;
+}
+
+.crosshair-line {
+  position: absolute;
+  background-color: rgba(46, 204, 113, 0.8);
+  box-shadow: 0 0 4px #2ecc71;
+}
+
+.crosshair-line.top {
+  top: 0;
+  left: 15px;
+  width: 2px;
+  height: 8px;
+}
+
+.crosshair-line.bottom {
+  bottom: 0;
+  left: 15px;
+  width: 2px;
+  height: 8px;
+}
+
+.crosshair-line.left {
+  top: 15px;
+  left: 0;
+  width: 8px;
+  height: 2px;
+}
+
+.crosshair-line.right {
+  top: 15px;
+  right: 0;
+  width: 8px;
+  height: 2px;
+}
+
+/* Hitmarker Rojo */
+.doom-hitmarker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ff0033;
+  font-weight: 900;
+  font-size: 20px;
+  text-shadow: 0 0 8px #ff0033;
+  animation: hitmarker-pop 0.15s ease-out;
+}
+
+@keyframes hitmarker-pop {
+  0% { transform: translate(-50%, -50%) scale(1.6); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.0); opacity: 0; }
+}
+
+/* Prompt de Acción Flotante */
+.doom-action-prompt {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 25, 18, 0.9);
+  color: #f39c12;
+  border: 2px solid #f39c12;
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.6);
+  padding: 8px 18px;
+  border-radius: 6px;
+  z-index: 20;
+  font-size: 11px;
+}
+
+.key-badge {
+  background: #f39c12;
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* Minimapa Táctico / Radar */
+.doom-minimap-box {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(5, 15, 10, 0.88);
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.35);
+  border-radius: 6px;
+  padding: 6px;
+  z-index: 20;
+}
+
+.minimap-header {
+  font-size: 11px;
+  color: #2ecc71;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.minimap-legend {
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+/* Overlay Superior */
+.doom-top-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.doom-top-hud button {
+  pointer-events: auto;
+}
+
+/* Pantalla de Bloqueo de Puntero */
+.pointer-lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 10, 7, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 30;
+  cursor: pointer;
+}
+
+.max-w-600 {
+  max-width: 620px;
+}
+
+.pulse-glow {
+  animation: pulse-border 1.8s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
+  50% { box-shadow: 0 0 30px rgba(46, 204, 113, 0.95); }
+  100% { box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
+}
+
+/* Barra de Estado Inferior Estilo DOOM */
+.doom-status-bar {
+  background: linear-gradient(180deg, #1b2820 0%, #0d1612 100%);
+  border: 3px solid #2ecc71;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.1), 0 0 20px rgba(0, 0, 0, 0.8);
+  min-height: 85px;
+  padding: 6px 0;
+}
+
+.doom-lcd-number {
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px currentColor;
+  display: block;
+  line-height: 1.1;
+}
+
+.doom-marine-frame {
+  background: #000;
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 12px rgba(46, 204, 113, 0.4);
+  display: inline-block;
+}
+
+/* ===================================================================== */
+/* EFECTOS VISUALES DOOM MEJORADOS - SCANLINES, VI\u00d1ETA, POST-PROCESADO   */
+/* ===================================================================== */
+
+/* Scanlines retro sobre el viewport del juego (efecto TV antigua) */
+.game-viewport-container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Vi\u00f1eta oscura en las esquinas del viewport (efecto DOOM cl\u00e1sico) */
+.game-viewport-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.55) 80%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
+  pointer-events: none;
+  z-index: 48;
+}
+
+/* Efecto de interferencia lateral (scanline vertical ocasional) */
+@keyframes vhs-glitch {
+  0%   { opacity: 1; transform: translateX(0); }
+  97%  { opacity: 1; transform: translateX(0); }
+  97.5%{ opacity: 0.85; transform: translateX(-2px); }
+  98%  { opacity: 1; transform: translateX(2px); }
+  98.5%{ opacity: 0.9; transform: translateX(-1px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.doom-overlay-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.15s ease-out;
+}
+
+/* Efecto de da\u00f1o mejorado: flash rojo + pulso */
+#doom-damage-flash {
+  background: radial-gradient(circle at center, rgba(255, 0, 0, 0) 20%, rgba(220, 20, 20, 0.88) 100%);
+  opacity: 0;
+  transition: opacity 0.05s ease-in;
+}
+
+#doom-damage-flash.flash {
+  opacity: 1;
+  animation: damage-pulse 0.22s ease-out forwards;
+}
+
+@keyframes damage-pulse {
+  0%   { opacity: 1; }
+  30%  { opacity: 0.85; }
+  60%  { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+/* Overlay de poderes mejorados */
+#doom-power-glow {
+  background: radial-gradient(circle at center, rgba(0, 255, 255, 0) 50%, rgba(0, 210, 255, 0.4) 100%);
+  opacity: 0;
+  animation: none;
+}
+
+#doom-power-glow.quad-glow {
+  background: radial-gradient(ellipse at center, rgba(255, 0, 100, 0) 40%, rgba(255, 0, 100, 0.55) 100%);
+  opacity: 1;
+  animation: quad-pulse 0.6s ease-in-out infinite alternate;
+}
+
+#doom-power-glow.shield-glow {
+  background: radial-gradient(circle at center, rgba(0, 255, 200, 0) 50%, rgba(46, 204, 113, 0.5) 100%);
+  opacity: 1;
+  animation: shield-shimmer 1.2s ease-in-out infinite alternate;
+}
+
+#doom-power-glow.speed-glow {
+  background: radial-gradient(ellipse at center, rgba(255, 200, 0, 0) 40%, rgba(243, 156, 18, 0.5) 100%);
+  opacity: 1;
+  animation: speed-streak 0.4s linear infinite;
+}
+
+@keyframes quad-pulse {
+  from { opacity: 0.7; }
+  to   { opacity: 1.0; }
+}
+
+@keyframes shield-shimmer {
+  from { opacity: 0.65; filter: hue-rotate(0deg); }
+  to   { opacity: 1.0; filter: hue-rotate(30deg); }
+}
+
+@keyframes speed-streak {
+  0%   { transform: translateX(-1px); opacity: 0.8; }
+  50%  { transform: translateX(1px); opacity: 1.0; }
+  100% { transform: translateX(-1px); opacity: 0.8; }
+}
+
+/* Reticula de apuntado mejorada con pulso */
+.doom-crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  z-index: 15;
+  filter: drop-shadow(0 0 4px #2ecc71);
+}
+
+.crosshair-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
+  background-color: #2ecc71;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #2ecc71, 0 0 16px rgba(46, 204, 113, 0.5);
+  animation: crosshair-breathe 2.5s ease-in-out infinite;
+}
+
+@keyframes crosshair-breathe {
+  0%, 100% { box-shadow: 0 0 5px #2ecc71; transform: translate(-50%, -50%) scale(1); }
+  50%       { box-shadow: 0 0 14px #2ecc71, 0 0 28px rgba(46,204,113,0.4); transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.crosshair-line {
+  position: absolute;
+  background-color: rgba(46, 204, 113, 0.85);
+  box-shadow: 0 0 5px #2ecc71;
+}
+
+.crosshair-line.top    { top: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 10px; }
+.crosshair-line.bottom { bottom: 0; left: 50%; transform: translateX(-50%); width: 2px; height: 10px; }
+.crosshair-line.left   { left: 0; top: 50%; transform: translateY(-50%); width: 10px; height: 2px; }
+.crosshair-line.right  { right: 0; top: 50%; transform: translateY(-50%); width: 10px; height: 2px; }
+
+/* Hitmarker animado mejorado */
+.doom-hitmarker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ff0033;
+  font-weight: 900;
+  font-size: 22px;
+  text-shadow: 0 0 12px #ff0033, 0 0 24px rgba(255,0,51,0.5);
+  animation: hitmarker-pop 0.18s ease-out;
+  pointer-events: none;
+}
+
+@keyframes hitmarker-pop {
+  0%   { transform: translate(-50%, -50%) scale(1.8) rotate(0deg); opacity: 1; }
+  50%  { transform: translate(-50%, -50%) scale(1.2) rotate(5deg); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(1.0) rotate(0deg); opacity: 0; }
+}
+
+/* Barra de Estado Inferior Estilo DOOM (mejorada con Orbitron) */
+.doom-status-bar {
+  background: linear-gradient(180deg, #1b2820 0%, #0d1612 100%);
+  border: 3px solid #2ecc71;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.08),
+              0 0 25px rgba(0, 0, 0, 0.9),
+              inset 0 0 20px rgba(46, 204, 113, 0.08);
+  min-height: 90px;
+  padding: 6px 0;
+}
+
+.doom-lcd-number {
+  font-family: 'Orbitron', 'Press Start 2P', monospace;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 0 14px currentColor, 0 0 30px rgba(46, 204, 113, 0.3);
+  display: block;
+  line-height: 1.1;
+}
+
+/* Animaci\u00f3n de daño cr\u00edtico (HP bajo, n\u00famero parpadea rojo) */
+.doom-lcd-number.critical {
+  animation: critical-blink 0.5s step-end infinite;
+  color: #ff2200 !important;
+}
+
+@keyframes critical-blink {
+  50% { opacity: 0.3; }
+}
+
+/* Cockpit Blindado Goliath mejorado */
+#goliath-cockpit-hud {
+  z-index: 6;
+  background: 
+    linear-gradient(rgba(0, 255, 100, 0.04) 50%, rgba(0, 0, 0, 0.3) 50%),
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 255, 150, 0.035) 4px);
+  background-size: 100% 4px, 100% 4px;
+  animation: cockpit-screen 0.15s steps(1) infinite;
+}
+
+@keyframes cockpit-screen {
+  0%, 90% { filter: brightness(1); }
+  95%      { filter: brightness(0.95); }
+  100%     { filter: brightness(1); }
+}
+
+.cockpit-frame {
+  width: 100%;
+  height: 100%;
+  border: 22px solid rgba(15, 28, 20, 0.88);
+  box-shadow: inset 0 0 50px rgba(46, 204, 113, 0.3),
+              inset 0 0 120px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cockpit-target-brackets {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border: 2px dashed rgba(243, 156, 18, 0.7);
+  border-radius: 50%;
+  animation: radar-rotate 6s linear infinite;
+  box-shadow: 0 0 20px rgba(243, 156, 18, 0.4), inset 0 0 20px rgba(243, 156, 18, 0.1);
+}
+
+@keyframes radar-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Prompt de Acci\u00f3n Flotante mejorado */
+.doom-action-prompt {
+  position: absolute;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8, 22, 14, 0.95);
+  color: #f39c12;
+  border: 2px solid #f39c12;
+  box-shadow: 0 0 25px rgba(243, 156, 18, 0.7), inset 0 0 10px rgba(243, 156, 18, 0.1);
+  padding: 10px 22px;
+  border-radius: 6px;
+  z-index: 20;
+  font-size: 11px;
+  animation: action-prompt-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes action-prompt-glow {
+  from { box-shadow: 0 0 15px rgba(243, 156, 18, 0.5); }
+  to   { box-shadow: 0 0 35px rgba(243, 156, 18, 0.95); }
+}
+
+.key-badge {
+  background: linear-gradient(180deg, #f39c12, #d68910);
+  color: #000;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Minimapa T\u00e1ctico mejorado */
+.doom-minimap-box {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(3, 12, 8, 0.92);
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.4), inset 0 0 8px rgba(46, 204, 113, 0.08);
+  border-radius: 6px;
+  padding: 7px;
+  z-index: 20;
+}
+
+.minimap-header {
+  font-size: 10px;
+  color: #2ecc71;
+  margin-bottom: 4px;
+  font-weight: bold;
+  text-shadow: 0 0 6px rgba(46,204,113,0.7);
+  letter-spacing: 1px;
+}
+
+.minimap-legend {
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+/* Viewport del juego con borde brillante animado */
+.game-viewport-container {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  border: 3px solid #1abc9c;
+  box-shadow: 0 0 35px rgba(26, 188, 156, 0.6),
+              0 0 70px rgba(26, 188, 156, 0.2),
+              inset 0 0 30px rgba(0, 0, 0, 0.5);
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  animation: viewport-border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes viewport-border-pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(26,188,156,0.5), 0 0 60px rgba(26,188,156,0.15); }
+  50%       { box-shadow: 0 0 50px rgba(26,188,156,0.8), 0 0 100px rgba(26,188,156,0.3); }
+}
+
+/* Indicador de salud cr\u00edtica (vi\u00f1eta roja parpadeante) */
+.doom-overlay-layer.critical-health {
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(200, 0, 0, 0.35) 100%);
+  animation: health-vignette 1.0s ease-in-out infinite alternate;
+}
+
+@keyframes health-vignette {
+  from { opacity: 0.5; }
+  to   { opacity: 1.0; }
+}
+
+/* Texto numérico del HUD con estilo Orbitron militar */
+.font-arcade {
+  font-family: 'Press Start 2P', 'Orbitron', monospace;
+  letter-spacing: -1px;
+}
+
+.font-tech {
+  font-family: 'Rajdhani', 'Orbitron', sans-serif;
+  letter-spacing: 1px;
+}
+
+/* Pantalla de Bloqueo de Puntero mejorada */
+.pointer-lock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 8, 5, 0.92);
+  backdrop-filter: blur(10px);
+  z-index: 30;
+  cursor: pointer;
+}
+
+.max-w-600 {
+  max-width: 640px;
+}
+
+.pulse-glow {
+  animation: pulse-border 1.6s infinite;
+}
+
+@keyframes pulse-border {
+  0%   { box-shadow: 0 0 12px rgba(46, 204, 113, 0.5); }
+  50%  { box-shadow: 0 0 40px rgba(46, 204, 113, 1.0), 0 0 80px rgba(46,204,113,0.4); }
+  100% { box-shadow: 0 0 12px rgba(46, 204, 113, 0.5); }
+}
+
+/* HUD overlay del tope */
+.hud-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 15px;
+  background: linear-gradient(180deg, rgba(3, 10, 7, 0.96) 0%, rgba(3, 10, 7, 0) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hud-interactive {
+  pointer-events: auto;
+}
+
+/* Barra de progreso de radar */
+.radar-progress-bar {
+  height: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #2ecc71;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 6px rgba(46,204,113,0.3), inset 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Doom Marine Face Frame */
+.doom-marine-frame {
+  background: #000;
+  border: 2px solid #2ecc71;
+  box-shadow: 0 0 15px rgba(46, 204, 113, 0.5), inset 0 0 8px rgba(0,0,0,0.8);
+  display: inline-block;
+}
+
+/* TOP HUD overlay */
+.doom-top-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.doom-top-hud button {
+  pointer-events: auto;
+}
+
